@@ -34,7 +34,7 @@ region = ap-southeast-1
     5. person_status
     GSI: first_name_age, Parition Key - first_name, Sort Key- age
 ```  
-### API: /person/list
+### API: ``` /person/list ```
 ```
 {
     "firstName": "Newaz",
