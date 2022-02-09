@@ -36,14 +36,13 @@ public class PersonService {
 
         DynamoDbTable<Person> personDynamoDbTable = dynamoDbEnhancedClient.table(personTableName, TableSchema.fromClass(Person.class));
 
-        if(ObjectUtils.isEmpty(request)) {
+        if (ObjectUtils.isEmpty(request)) {
             return Response.builder().personList(personDynamoDbTable.scan().iterator().next().items()).build();
         }
-        log.info("");
         Map<String, AttributeValue> expressionValueMap = new HashMap<>();
         log.info("NextToken {}", request.getNextToken());
         var exclusiveStartKey = convertJsonStringToDynamoDbItem(request.getNextToken());
-        if(ObjectUtils.isEmpty(exclusiveStartKey)) {
+        if (ObjectUtils.isEmpty(exclusiveStartKey)) {
             log.info("exclusiveStartKey is empty ");
         }
         expressionValueMap.put(":person_status", AttributeValue.builder().s(request.getPersonStatus()).build());
@@ -66,7 +65,7 @@ public class PersonService {
 
         Page<Person> personPage = pageIterator.next();
 
-        List<Person> personList  =personPage.items();
+        List<Person> personList = personPage.items();
         Map<String, AttributeValue> lastEvaluatedKey = personPage.lastEvaluatedKey();
         String nextToken = convertDynamoDbItemToJsonString(lastEvaluatedKey);
 
